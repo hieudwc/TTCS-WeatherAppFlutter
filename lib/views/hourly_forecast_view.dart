@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/providers/background_color_provider.dart';
 
 import '/constants/app_colors.dart';
 import '/constants/text_styles.dart';
@@ -50,7 +51,7 @@ class HourlyForecastView extends ConsumerWidget {
   }
 }
 
-class HourlyForcastTile extends StatelessWidget {
+class HourlyForcastTile extends ConsumerWidget {
   const HourlyForcastTile({
     super.key,
     required this.id,
@@ -65,7 +66,8 @@ class HourlyForcastTile extends StatelessWidget {
   final bool isActive;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isNightMode = ref.watch(isNightModeProvider);
     return Padding(
       padding: const EdgeInsets.only(
         right: 16,
@@ -73,7 +75,9 @@ class HourlyForcastTile extends StatelessWidget {
         bottom: 12,
       ),
       child: Material(
-        color: isActive ? AppColors.lightBlue : AppColors.accentBlue,
+        color: isNightMode
+            ? (isActive ? AppColors.accentBlue : AppColors.nightBlue)
+            : (isActive ? AppColors.lightBlue : AppColors.dayBlue),
         borderRadius: BorderRadius.circular(15.0),
         elevation: isActive ? 8 : 0,
         child: Padding(
@@ -102,7 +106,9 @@ class HourlyForcastTile extends StatelessWidget {
                   const SizedBox(height: 5),
                   Text(
                     '$temp°',
-                    style: TextStyles.h3,
+                    style: isNightMode
+                        ? TextStyles.h3NightMode
+                        : TextStyles.h3DayMode,
                   ),
                 ],
               ),

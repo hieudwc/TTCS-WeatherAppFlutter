@@ -15,15 +15,16 @@ class ForecastReportScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentGradient = ref.watch(backgroundGradientProvider);
+    final isNightMode = ref.watch(isNightModeProvider);
     return GradientContainer(
       gradientColors: currentGradient,
       children: [
         // Page Title
-        const Align(
+        Align(
           alignment: Alignment.center,
           child: Text(
             'Forecast Report',
-            style: TextStyles.h1,
+            style: isNightMode ? TextStyles.h1NightMode : TextStyles.h1DayMode,
           ),
         ),
 
@@ -33,13 +34,16 @@ class ForecastReportScreen extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               'Today',
-              style: TextStyles.h2,
+              style:
+                  isNightMode ? TextStyles.h2NightMode : TextStyles.h2DayMode,
             ),
             Text(
               DateTime.now().dateTime,
-              style: TextStyles.subtitleText,
+              style: isNightMode
+                  ? TextStyles.subtitleTextNightMode
+                  : TextStyles.subtitleTextDayMode,
             ),
           ],
         ),
@@ -52,16 +56,17 @@ class ForecastReportScreen extends ConsumerWidget {
         const SizedBox(height: 20),
 
         // Next Forecast
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               'Next Forecast',
-              style: TextStyles.h2,
+              style:
+                  isNightMode ? TextStyles.h2NightMode : TextStyles.h2DayMode,
             ),
             Icon(
               Icons.calendar_month_rounded,
-              color: AppColors.white,
+              color: isNightMode ? AppColors.white : AppColors.accentBlue,
             ),
           ],
         ),

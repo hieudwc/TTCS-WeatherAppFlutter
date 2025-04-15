@@ -16,6 +16,7 @@ class WeatherDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final weatherData = ref.watch((cityForecastProvider(cityName)));
     final currentGradient = ref.watch(backgroundGradientProvider);
+    final isNightMode = ref.watch(isNightModeProvider);
     return Scaffold(
       body: weatherData.when(
         data: (weather) {
@@ -32,7 +33,9 @@ class WeatherDetailScreen extends ConsumerWidget {
                   // Country name text
                   Text(
                     weather.name,
-                    style: TextStyles.h1,
+                    style: isNightMode
+                        ? TextStyles.h1NightMode
+                        : TextStyles.h1DayMode,
                   ),
 
                   const SizedBox(height: 20),
@@ -40,7 +43,9 @@ class WeatherDetailScreen extends ConsumerWidget {
                   // Today's date
                   Text(
                     DateTime.now().dateTime,
-                    style: TextStyles.subtitleText,
+                    style: isNightMode
+                        ? TextStyles.subtitleTextNightMode
+                        : TextStyles.subtitleTextDayMode,
                   ),
 
                   const SizedBox(height: 50),
@@ -59,7 +64,9 @@ class WeatherDetailScreen extends ConsumerWidget {
                   // Weather description
                   Text(
                     weather.weather[0].description.capitalize,
-                    style: TextStyles.h2,
+                    style: isNightMode
+                        ? TextStyles.h2NightMode
+                        : TextStyles.h2DayMode,
                   ),
                 ],
               ),

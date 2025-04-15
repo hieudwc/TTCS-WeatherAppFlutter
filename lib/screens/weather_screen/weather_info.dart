@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/providers/background_color_provider.dart';
 
 import '/constants/text_styles.dart';
 import '/extensions/double.dart';
@@ -97,22 +99,25 @@ class WeatherInfo extends StatelessWidget {
   }
 }
 
-class WeatherInfoTitle extends StatelessWidget {
+class WeatherInfoTitle extends ConsumerWidget {
   const WeatherInfoTitle({super.key, required this.title, required this.value});
   final String title;
   final String value;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isNightMode = ref.watch(isNightModeProvider);
     return Column(
       children: [
         Text(
           title,
-          style: TextStyles.subtitleText,
+          style: isNightMode
+              ? TextStyles.subtitleTextNightMode
+              : TextStyles.subtitleTextDayMode,
         ),
         const SizedBox(height: 10),
         Text(
           value,
-          style: TextStyles.h3,
+          style: isNightMode ? TextStyles.h3NightMode : TextStyles.h3DayMode,
         ),
       ],
     );

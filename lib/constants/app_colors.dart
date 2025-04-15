@@ -6,6 +6,8 @@ class AppColors {
   static const Color darkBlue = Color(0xFF0A0B39); // dark blue
   static const Color lightBlue = Color(0xFF1D85E4);
   static const Color accentBlue = Color(0xFF23224A);
+  static const Color dayBlue = Color.fromARGB(255, 117, 182, 236);
+  static const Color nightBlue = Color.fromARGB(255, 10, 71, 121);
 
   static const Color grey = Color(0xFFB7B6C4);
   static const Color blueGrey = Color(0xFF0A0B39);

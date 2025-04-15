@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/providers/background_color_provider.dart';
 
 import '/constants/app_colors.dart';
 import '/constants/text_styles.dart';
@@ -20,7 +21,7 @@ class CityWeatherTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentWeather = ref.watch(cityForecastProvider(city.name));
-
+    final isNightMode = ref.watch(isNightModeProvider);
     return currentWeather.when(
       data: (weather) {
         return Padding(
@@ -28,7 +29,13 @@ class CityWeatherTile extends ConsumerWidget {
             0.0,
           ),
           child: Material(
-            color: index == 0 ? AppColors.lightBlue : AppColors.accentBlue,
+            color: isNightMode
+                ? (index == 0
+                    ? AppColors.accentBlue
+                    : const Color.fromARGB(255, 10, 71, 121))
+                : (index == 0
+                    ? AppColors.lightBlue
+                    : const Color.fromARGB(255, 117, 182, 236)),
             elevation: index == 0 ? 12 : 0,
             borderRadius: BorderRadius.circular(25.0),
             child: Padding(
@@ -50,12 +57,16 @@ class CityWeatherTile extends ConsumerWidget {
                           children: [
                             Text(
                               '${weather.main.temp.round()}°',
-                              style: TextStyles.h2,
+                              style: isNightMode
+                                  ? TextStyles.h2NightMode
+                                  : TextStyles.h2DayMode,
                             ),
                             const SizedBox(height: 5),
                             Text(
                               weather.weather[0].description,
-                              style: TextStyles.subtitleText,
+                              style: isNightMode
+                                  ? TextStyles.subtitleTextNightMode
+                                  : TextStyles.subtitleTextDayMode,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),

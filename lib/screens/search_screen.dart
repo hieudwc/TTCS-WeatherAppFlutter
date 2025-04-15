@@ -32,32 +32,34 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final currentGradient = ref.watch(backgroundGradientProvider);
-
+    final isNightMode = ref.watch(isNightModeProvider);
     return GradientContainer(
       gradientColors: currentGradient,
-      children: const [
+      children: [
         // Page title
         Align(
           alignment: Alignment.center,
           child: Text(
             'Pick Location',
-            style: TextStyles.h1,
+            style: isNightMode ? TextStyles.h1NightMode : TextStyles.h1DayMode,
           ),
         ),
 
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
 
         // Page subtitle
         Text(
           'Find the area or city that you want to know the detailed weather info at this time',
-          style: TextStyles.subtitleText,
+          style: isNightMode
+              ? TextStyles.subtitleTextNightMode
+              : TextStyles.subtitleTextDayMode,
           textAlign: TextAlign.center,
         ),
 
-        SizedBox(height: 40),
+        const SizedBox(height: 40),
 
         // Pick location row
-        Row(
+        const Row(
           children: [
             // Choose city text field
             Expanded(
@@ -69,29 +71,30 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ],
         ),
 
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
 
-        FamousCitiesWeather(),
+        const FamousCitiesWeather(),
       ],
     );
   }
 }
 
-class LocationIcon extends StatelessWidget {
+class LocationIcon extends ConsumerWidget {
   const LocationIcon({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isNightMode = ref.watch(isNightModeProvider);
     return Container(
       height: 55,
       width: 55,
       decoration: BoxDecoration(
-        color: AppColors.accentBlue,
+        color: isNightMode ? AppColors.accentBlue : AppColors.lightBlue,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: const Icon(
+      child: Icon(
         Icons.location_on_outlined,
-        color: AppColors.grey,
+        color: isNightMode ? AppColors.white : AppColors.grey,
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/background_color_provider.dart';
 import '/constants/app_colors.dart';
 import '/constants/text_styles.dart';
 import '/extensions/datetime.dart';
@@ -53,7 +54,7 @@ class WeeklyForecastView extends ConsumerWidget {
   }
 }
 
-class WeeklyForecastTile extends StatelessWidget {
+class WeeklyForecastTile extends ConsumerWidget {
   const WeeklyForecastTile({
     super.key,
     required this.day,
@@ -68,7 +69,8 @@ class WeeklyForecastTile extends StatelessWidget {
   final String icon;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isNightMode = ref.watch(isNightModeProvider);
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
@@ -79,7 +81,7 @@ class WeeklyForecastTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: AppColors.accentBlue,
+        color: isNightMode ? AppColors.nightBlue : AppColors.dayBlue,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,12 +90,15 @@ class WeeklyForecastTile extends StatelessWidget {
             children: [
               Text(
                 day,
-                style: TextStyles.h3,
+                style:
+                    isNightMode ? TextStyles.h3NightMode : TextStyles.h3DayMode,
               ),
               const SizedBox(height: 5),
               Text(
                 date,
-                style: TextStyles.subtitleText,
+                style: isNightMode
+                    ? TextStyles.subtitleTextNightMode
+                    : TextStyles.subtitleTextDayMode,
               ),
             ],
           ),

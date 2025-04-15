@@ -121,7 +121,7 @@ class WeatherScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final weatherData = ref.watch(currentWeatherProvider);
     final currentGradient = ref.watch(backgroundGradientProvider);
-
+    final isNightMode = ref.watch(isNightModeProvider);
     return weatherData.when(data: (weather) {
       return GradientContainer(
         gradientColors: currentGradient,
@@ -133,12 +133,18 @@ class WeatherScreen extends ConsumerWidget {
                 width: double.infinity,
               ),
               //Country name text
-              Text(weather.name, style: TextStyles.h1),
+              Text(
+                weather.name,
+                style:
+                    isNightMode ? TextStyles.h1NightMode : TextStyles.h1DayMode,
+              ),
               const SizedBox(height: 20),
               //Today's date
               Text(
                 DateTime.now().dateTime,
-                style: TextStyles.subtitleText,
+                style: isNightMode
+                    ? TextStyles.subtitleTextNightMode
+                    : TextStyles.subtitleTextDayMode,
               ),
               // Đồng hồ nhấp nháy
               const BlinkingClock(),
@@ -155,7 +161,8 @@ class WeatherScreen extends ConsumerWidget {
               //Weather description
               Text(
                 weather.weather[0].description.capitalize,
-                style: TextStyles.h2,
+                style:
+                    isNightMode ? TextStyles.h2NightMode : TextStyles.h2DayMode,
               ),
             ],
           ),
@@ -164,17 +171,17 @@ class WeatherScreen extends ConsumerWidget {
           WeatherInfo(weather: weather),
           const SizedBox(height: 40),
           //Today Daily Forecast
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Today',
                 style: TextStyle(
                   fontSize: 20,
-                  color: AppColors.white,
+                  color: isNightMode ? AppColors.white : AppColors.accentBlue,
                 ),
               ),
-              InkWell(
+              const InkWell(
                 child: Text(
                   'View full report',
                   style: TextStyle(color: AppColors.lightBlue),
