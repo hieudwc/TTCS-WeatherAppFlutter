@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/constants/localization.dart';
 import 'package:weather_app_tutorial/providers/background_color_provider.dart';
+import 'package:weather_app_tutorial/providers/language_provider.dart';
 
 import '/constants/app_colors.dart';
 import '/constants/text_styles.dart';
@@ -22,6 +24,7 @@ class CityWeatherTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentWeather = ref.watch(cityForecastProvider(city.name));
     final isNightMode = ref.watch(isNightModeProvider);
+    final currentLanguage = ref.watch(languageProvider);
     return currentWeather.when(
       data: (weather) {
         return Padding(
@@ -63,7 +66,9 @@ class CityWeatherTile extends ConsumerWidget {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              weather.weather[0].description,
+                              Localization(language: currentLanguage).translate(
+                                  weather.weather[0].description,
+                                  currentLanguage),
                               style: isNightMode
                                   ? TextStyles.subtitleTextNightMode
                                   : TextStyles.subtitleTextDayMode,

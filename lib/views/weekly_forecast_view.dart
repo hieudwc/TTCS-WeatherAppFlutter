@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/constants/localization.dart';
+import 'package:weather_app_tutorial/providers/language_provider.dart';
 
 import '../providers/background_color_provider.dart';
 import '/constants/app_colors.dart';
@@ -14,6 +16,7 @@ class WeeklyForecastView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentLanguage = ref.watch(languageProvider);
     final weeklyForecast = ref.watch(weeklyForecastProvider);
 
     return weeklyForecast.when(
@@ -23,8 +26,9 @@ class WeeklyForecastView extends ConsumerWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            final dayOfWeek =
-                DateTime.parse(weatherData.daily.time[index]).dayOfWeek;
+            final dayOfWeek = Localization(language: currentLanguage).translate(
+                DateTime.parse(weatherData.daily.time[index]).dayOfWeek,
+                currentLanguage);
             final date = weatherData.daily.time[index];
             final temp = weatherData.daily.temperature2mMax[index];
             final icon = weatherData.daily.weatherCode[index];

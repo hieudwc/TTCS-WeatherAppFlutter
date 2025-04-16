@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/constants/localization.dart';
 import 'package:weather_app_tutorial/providers/background_color_provider.dart';
+import 'package:weather_app_tutorial/providers/language_provider.dart';
 import '/constants/text_styles.dart';
 import '/extensions/datetime.dart';
 import '/extensions/strings.dart';
@@ -17,6 +19,7 @@ class WeatherDetailScreen extends ConsumerWidget {
     final weatherData = ref.watch((cityForecastProvider(cityName)));
     final currentGradient = ref.watch(backgroundGradientProvider);
     final isNightMode = ref.watch(isNightModeProvider);
+    final currentLanguage = ref.watch(languageProvider);
     return Scaffold(
       body: weatherData.when(
         data: (weather) {
@@ -32,7 +35,8 @@ class WeatherDetailScreen extends ConsumerWidget {
                   ),
                   // Country name text
                   Text(
-                    weather.name,
+                    Localization(language: currentLanguage)
+                        .translate(weather.name, currentLanguage),
                     style: isNightMode
                         ? TextStyles.h1NightMode
                         : TextStyles.h1DayMode,
@@ -42,7 +46,7 @@ class WeatherDetailScreen extends ConsumerWidget {
 
                   // Today's date
                   Text(
-                    DateTime.now().dateTime,
+                    '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
                     style: isNightMode
                         ? TextStyles.subtitleTextNightMode
                         : TextStyles.subtitleTextDayMode,
@@ -63,7 +67,10 @@ class WeatherDetailScreen extends ConsumerWidget {
 
                   // Weather description
                   Text(
-                    weather.weather[0].description.capitalize,
+                    Localization(language: currentLanguage)
+                        .translate(
+                            weather.weather[0].description, currentLanguage)
+                        .capitalize,
                     style: isNightMode
                         ? TextStyles.h2NightMode
                         : TextStyles.h2DayMode,

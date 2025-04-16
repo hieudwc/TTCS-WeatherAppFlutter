@@ -7,11 +7,12 @@ import '/constants/text_styles.dart';
 import '/extensions/datetime.dart';
 import '/extensions/strings.dart';
 import '/providers/get_current_weather_provider.dart';
+import '/providers/language_provider.dart';
 import '/views/gradient_container.dart';
 import '/views/hourly_forecast_view.dart';
 import '/widgets/blinking_clock.dart';
 import 'weather_info.dart';
-
+import '/constants/localization.dart';
 // class WeatherScreen extends ConsumerWidget {
 //   const WeatherScreen({super.key});
 
@@ -122,6 +123,7 @@ class WeatherScreen extends ConsumerWidget {
     final weatherData = ref.watch(currentWeatherProvider);
     final currentGradient = ref.watch(backgroundGradientProvider);
     final isNightMode = ref.watch(isNightModeProvider);
+    final currentLanguage = ref.watch(languageProvider);
     return weatherData.when(data: (weather) {
       return GradientContainer(
         gradientColors: currentGradient,
@@ -134,14 +136,15 @@ class WeatherScreen extends ConsumerWidget {
               ),
               //Country name text
               Text(
-                weather.name,
+                Localization(language: currentLanguage)
+                    .translate(weather.name, currentLanguage),
                 style:
                     isNightMode ? TextStyles.h1NightMode : TextStyles.h1DayMode,
               ),
               const SizedBox(height: 20),
               //Today's date
               Text(
-                DateTime.now().dateTime,
+                '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
                 style: isNightMode
                     ? TextStyles.subtitleTextNightMode
                     : TextStyles.subtitleTextDayMode,
@@ -160,7 +163,9 @@ class WeatherScreen extends ConsumerWidget {
               const SizedBox(height: 30),
               //Weather description
               Text(
-                weather.weather[0].description.capitalize,
+                Localization(language: currentLanguage)
+                    .translate(weather.weather[0].description, currentLanguage)
+                    .capitalize,
                 style:
                     isNightMode ? TextStyles.h2NightMode : TextStyles.h2DayMode,
               ),
@@ -175,16 +180,18 @@ class WeatherScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Today',
+                Localization(language: currentLanguage)
+                    .translate('Today', currentLanguage),
                 style: TextStyle(
                   fontSize: 20,
                   color: isNightMode ? AppColors.white : AppColors.accentBlue,
                 ),
               ),
-              const InkWell(
+              InkWell(
                 child: Text(
-                  'View full report',
-                  style: TextStyle(color: AppColors.lightBlue),
+                  Localization(language: currentLanguage)
+                      .translate('View full report', currentLanguage),
+                  style: const TextStyle(color: AppColors.lightBlue),
                 ),
               ),
             ],

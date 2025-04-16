@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/constants/localization.dart';
 import 'package:weather_app_tutorial/providers/background_color_provider.dart';
+import 'package:weather_app_tutorial/providers/language_provider.dart';
 
 import '/constants/text_styles.dart';
 import '/extensions/double.dart';
@@ -70,27 +72,30 @@ import '/models/weather.dart';
 //     );
 //   }
 // }
-class WeatherInfo extends StatelessWidget {
+class WeatherInfo extends ConsumerWidget {
   const WeatherInfo({super.key, required this.weather});
   final Weather weather;
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentLanguage = ref.watch(languageProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           WeatherInfoTitle(
-            title: 'Nhiệt độ',
+            title: Localization(language: currentLanguage)
+                .translate('Temperature', currentLanguage),
             value: '${weather.main.temp}°',
           ),
           WeatherInfoTitle(
-            title: 'Gió',
+            title: Localization(language: currentLanguage)
+                .translate('Wind', currentLanguage),
             value: '${weather.wind.speed.kmh} km/h',
           ),
           WeatherInfoTitle(
-            title: 'Độ ẩm',
+            title: Localization(language: currentLanguage)
+                .translate('Humidity', currentLanguage),
             value: '${weather.main.humidity}%',
           ),
         ],

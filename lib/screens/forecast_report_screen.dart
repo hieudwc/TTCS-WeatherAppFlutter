@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/constants/localization.dart';
 import 'package:weather_app_tutorial/providers/background_color_provider.dart';
+import 'package:weather_app_tutorial/providers/language_provider.dart';
 
 import '/constants/app_colors.dart';
 import '/constants/text_styles.dart';
@@ -16,6 +18,7 @@ class ForecastReportScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentGradient = ref.watch(backgroundGradientProvider);
     final isNightMode = ref.watch(isNightModeProvider);
+    final currentLanguage = ref.watch(languageProvider);
     return GradientContainer(
       gradientColors: currentGradient,
       children: [
@@ -23,7 +26,8 @@ class ForecastReportScreen extends ConsumerWidget {
         Align(
           alignment: Alignment.center,
           child: Text(
-            'Forecast Report',
+            Localization(language: currentLanguage)
+                .translate('Forecast Report', currentLanguage),
             style: isNightMode ? TextStyles.h1NightMode : TextStyles.h1DayMode,
           ),
         ),
@@ -35,12 +39,13 @@ class ForecastReportScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Today',
+              Localization(language: currentLanguage)
+                  .translate('Today', currentLanguage),
               style:
                   isNightMode ? TextStyles.h2NightMode : TextStyles.h2DayMode,
             ),
             Text(
-              DateTime.now().dateTime,
+              '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
               style: isNightMode
                   ? TextStyles.subtitleTextNightMode
                   : TextStyles.subtitleTextDayMode,
@@ -60,7 +65,8 @@ class ForecastReportScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Next Forecast',
+              Localization(language: currentLanguage)
+                  .translate('Next Forecast', currentLanguage),
               style:
                   isNightMode ? TextStyles.h2NightMode : TextStyles.h2DayMode,
             ),
