@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:weather_app_tutorial/models/air_quality.dart';
 import '/constants/constants.dart';
 import '/models/hourly_weather.dart';
 import '/models/weather.dart';
@@ -91,6 +92,8 @@ class ApiHelper {
   static const baseUrl = 'https://api.openweathermap.org/data/2.5';
   static const weeklyWeatherUrl =
       'https://api.open-meteo.com/v1/forecast?current=&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto';
+  static const airQualityUrl =
+      'https://api.openweathermap.org/data/2.5/air_pollution';
   static double lat = 0.0;
   static double lon = 0.0;
   static final dio = Dio();
@@ -136,6 +139,14 @@ class ApiHelper {
     return Weather.fromJson(reponse);
   }
 
+  // Air Quality
+  static Future<AirQualityModel> getAirQuality() async {
+    await fetchLocation();
+    final url = _constructAirQualityUrl();
+    final response = await _fetchData(url);
+    return AirQualityModel.fromJson(response);
+  }
+
   static String _constructWeatherUrl() =>
       '$baseUrl/weather?lat=$lat&lon=$lon&units=metric&appid=${Constants.apiKey}';
 
@@ -147,6 +158,10 @@ class ApiHelper {
 
   static String _constructWeeklyForecastUrl() =>
       '$weeklyWeatherUrl&latitude=$lat&longitude=$lon';
+
+  static String _constructAirQualityUrl() =>
+      '$airQualityUrl?lat=$lat&lon=$lon&appid=${Constants.apiKey}';
+
   static Future<Map<String, dynamic>> _fetchData(String url) async {
     try {
       final reponse = await dio.get(url);

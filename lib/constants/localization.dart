@@ -257,6 +257,51 @@ class Localization {
       AppLanguage.en: 'Error',
       AppLanguage.vn: 'Lỗi',
     },
+    'Air Quality': {
+      AppLanguage.en: 'Air Quality',
+      AppLanguage.vn: 'Chất lượng không khí',
+    },
+    'Air Quality Index': {
+      AppLanguage.en: 'Air Quality Index',
+      AppLanguage.vn: 'Chỉ số chất lượng không khí',
+    },
+    'Pollutants': {
+      AppLanguage.en: 'Pollutants',
+      AppLanguage.vn: 'Chất ô nhiễm',
+    },
+    'Good': {
+      AppLanguage.en: 'Good',
+      AppLanguage.vn: 'Tốt',
+    },
+    'Fair': {
+      AppLanguage.en: 'Fair',
+      AppLanguage.vn: 'Khá',
+    },
+    'Moderate': {
+      AppLanguage.en: 'Moderate',
+      AppLanguage.vn: 'Trung bình',
+    },
+    'Poor': {
+      AppLanguage.en: 'Poor',
+      AppLanguage.vn: 'Kém',
+    },
+    'Very Poor': {
+      AppLanguage.en: 'Very Poor',
+      AppLanguage.vn: 'Rất kém',
+    },
+    'Could not load air quality data': {
+      AppLanguage.en: 'Could not load air quality data',
+      AppLanguage.vn: 'Không thể tải dữ liệu chất lượng không khí',
+    },
+    // ignore: equal_keys_in_map
+    'Air Quality': {
+      AppLanguage.en: 'Air Quality',
+      AppLanguage.vn: 'Chất lượng không khí',
+    },
+    'Weather Notification': {
+      AppLanguage.en: 'Weather Notification',
+      AppLanguage.vn: 'Thông báo thời tiết',
+    },
   };
   String translate(String key, AppLanguage language) {
     return _localizedValues[key]?[language] ?? key;

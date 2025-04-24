@@ -1,10 +1,15 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/constants/weather_notifications.dart';
 import 'package:weather_app_tutorial/providers/background_color_provider.dart';
+import 'package:weather_app_tutorial/screens/weather_screen/notifications_screen.dart';
+import 'package:weather_app_tutorial/views/weekly_forecast_view.dart';
+import 'package:weather_app_tutorial/screens/weather_screen/air_quality_details_screen.dart';
 
 import '/constants/app_colors.dart';
 import '/constants/text_styles.dart';
-import '/extensions/datetime.dart';
 import '/extensions/strings.dart';
 import '/providers/get_current_weather_provider.dart';
 import '/providers/language_provider.dart';
@@ -125,6 +130,13 @@ class WeatherScreen extends ConsumerWidget {
     final isNightMode = ref.watch(isNightModeProvider);
     final currentLanguage = ref.watch(languageProvider);
     return weatherData.when(data: (weather) {
+      final notifications = generateWeatherNotifications(
+        temperature: weather.main.temp,
+        windSpeed: weather.wind.speed,
+        humidity: double.parse(weather.main.humidity.toString()),
+        weatherCondition: weather.weather[0].description,
+      );
+      print('Notifications: $notifications');
       return GradientContainer(
         gradientColors: currentGradient,
         children: [
@@ -199,6 +211,33 @@ class WeatherScreen extends ConsumerWidget {
           const SizedBox(height: 15),
           //hourly forcast
           const HourlyForecastView(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                Localization(language: currentLanguage)
+                    .translate('Next Forecast', currentLanguage),
+                style:
+                    isNightMode ? TextStyles.h2NightMode : TextStyles.h2DayMode,
+              ),
+              Icon(
+                Icons.calendar_month_rounded,
+                color: isNightMode ? AppColors.white : AppColors.accentBlue,
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 15),
+          //weekly forecast
+          const WeeklyForecastView(),
+          // Air Quality Widget
+          const AirQualityWidget(),
+
+          const SizedBox(height: 15),
+          // Weather Notifications
+          WeatherNotifications(
+            notifications: notifications,
+          ),
         ],
       );
     }, error: (error, stackTrace) {

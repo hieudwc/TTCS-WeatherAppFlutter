@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app_tutorial/providers/background_color_provider.dart';
+import 'package:weather_app_tutorial/screens/weather_screen/list_city_screen.dart';
 
 import '/constants/app_colors.dart';
 import '/screens/forecast_report_screen.dart';
@@ -22,7 +23,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   final _screens = const [
     WeatherScreen(),
     SearchScreen(),
-    ForecastReportScreen(),
+    SavedCitiesScreen(),
     SettingsScreen(),
   ];
 
@@ -65,8 +66,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               label: '',
             ),
             NavigationDestination(
-              icon: Icon(Icons.wb_sunny_outlined, color: iconColor),
-              selectedIcon: Icon(Icons.wb_sunny, color: selectedIconColor),
+              icon: Icon(Icons.location_city_outlined, color: iconColor),
+              selectedIcon: Icon(Icons.location_city, color: selectedIconColor),
               label: '',
             ),
             NavigationDestination(
