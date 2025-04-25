@@ -4,7 +4,7 @@ import 'package:weather_app_tutorial/providers/background_color_provider.dart';
 import 'package:weather_app_tutorial/screens/weather_screen/list_city_screen.dart';
 
 import '/constants/app_colors.dart';
-import '/screens/forecast_report_screen.dart';
+
 import '/screens/search_screen.dart';
 import '/screens/settings_screen.dart';
 import 'weather_screen/weather_screen.dart';

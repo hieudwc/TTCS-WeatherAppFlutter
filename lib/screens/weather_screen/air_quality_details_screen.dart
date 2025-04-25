@@ -385,7 +385,8 @@ class _AirQualityDetailsScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "AQI Levels",
+            Localization(language: currentLanguage)
+                .translate('AQI Levels', currentLanguage),
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -393,11 +394,31 @@ class _AirQualityDetailsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 10),
-          _buildAqiLevelRow("1 - Good", Colors.green, isNightMode),
-          _buildAqiLevelRow("2 - Fair", Colors.yellow, isNightMode),
-          _buildAqiLevelRow("3 - Moderate", Colors.orange, isNightMode),
-          _buildAqiLevelRow("4 - Poor", Colors.red, isNightMode),
-          _buildAqiLevelRow("5 - Very Poor", Colors.purple, isNightMode),
+          _buildAqiLevelRow(
+              Localization(language: currentLanguage)
+                  .translate('Good', currentLanguage),
+              Colors.green,
+              isNightMode),
+          _buildAqiLevelRow(
+              Localization(language: currentLanguage)
+                  .translate('Fair', currentLanguage),
+              Colors.yellow,
+              isNightMode),
+          _buildAqiLevelRow(
+              Localization(language: currentLanguage)
+                  .translate('Moderate', currentLanguage),
+              Colors.orange,
+              isNightMode),
+          _buildAqiLevelRow(
+              Localization(language: currentLanguage)
+                  .translate('Poor', currentLanguage),
+              Colors.red,
+              isNightMode),
+          _buildAqiLevelRow(
+              Localization(language: currentLanguage)
+                  .translate('Very Poor', currentLanguage),
+              Colors.purple,
+              isNightMode),
         ],
       ),
     );

@@ -6,7 +6,6 @@ import 'package:weather_app_tutorial/providers/language_provider.dart';
 
 import '/constants/app_colors.dart';
 import '/constants/text_styles.dart';
-import '/extensions/datetime.dart';
 import '/views/gradient_container.dart';
 import '/views/hourly_forecast_view.dart';
 import '/views/weekly_forecast_view.dart';

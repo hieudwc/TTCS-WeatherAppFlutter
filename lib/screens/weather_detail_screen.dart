@@ -5,7 +5,7 @@ import 'package:weather_app_tutorial/providers/background_color_provider.dart';
 import 'package:weather_app_tutorial/providers/language_provider.dart';
 import 'package:weather_app_tutorial/services/city_preferences.dart';
 import '/constants/text_styles.dart';
-import '/extensions/datetime.dart';
+
 import '/extensions/strings.dart';
 import '/providers/get_city_forecast_provider.dart';
 import '/screens/weather_screen/weather_info.dart';

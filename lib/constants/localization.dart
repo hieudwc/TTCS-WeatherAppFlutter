@@ -51,7 +51,19 @@ class Localization {
     },
     'View full report': {
       AppLanguage.en: 'View full report',
+      AppLanguage.vn: 'Xem đầy đủ',
+    },
+    'See Details': {
+      AppLanguage.en: 'See Details',
       AppLanguage.vn: 'Xem chi tiết',
+    },
+    'Favourite City': {
+      AppLanguage.en: 'Favourite City',
+      AppLanguage.vn: 'Thành phố yêu thích',
+    },
+    'Notification': {
+      AppLanguage.en: 'Notification',
+      AppLanguage.vn: 'Thông báo',
     },
     'Search': {
       AppLanguage.en: 'Search',
@@ -301,6 +313,63 @@ class Localization {
     'Weather Notification': {
       AppLanguage.en: 'Weather Notification',
       AppLanguage.vn: 'Thông báo thời tiết',
+    },
+    'Air quality is good': {
+      AppLanguage.en: 'Air quality is good',
+      AppLanguage.vn: 'Chất lượng không khí tốt',
+    },
+    'Air quality is acceptable': {
+      AppLanguage.en: 'Air quality is acceptable',
+      AppLanguage.vn: 'Chất lượng không khí chấp nhận được',
+    },
+    'Sensitive groups may experience effects': {
+      AppLanguage.en: 'Sensitive groups may experience effects',
+      AppLanguage.vn: 'Những nhóm nhạy cảm có thể bị ảnh hưởng',
+    },
+    'Everyone may experience health effects': {
+      AppLanguage.en: 'Everyone may experience health effects',
+      AppLanguage.vn: 'Mọi người có thể bị ảnh hưởng đến sức khỏe',
+    },
+    'Health alert: everyone may be affected': {
+      AppLanguage.en: 'Health alert: everyone may be affected',
+      AppLanguage.vn: 'Cảnh báo sức khỏe: mọi người có thể bị ảnh hưởng',
+    },
+    'No data available': {
+      AppLanguage.en: 'No data available',
+      AppLanguage.vn: 'Không có dữ liệu',
+    },
+    'Pollutans': {
+      AppLanguage.en: 'Pollutants',
+      AppLanguage.vn: 'Chất ô nhiễm',
+    },
+    'AQI Levels': {
+      AppLanguage.en: 'AQI Levels',
+      AppLanguage.vn: 'Cấp độ AQI',
+    },
+    // ignore: equal_keys_in_map
+    'Good': {
+      AppLanguage.en: 'Good',
+      AppLanguage.vn: 'Tốt',
+    },
+    // ignore: equal_keys_in_map
+    'Fair': {
+      AppLanguage.en: 'Fair',
+      AppLanguage.vn: 'Khá',
+    },
+    // ignore: equal_keys_in_map
+    'Moderate': {
+      AppLanguage.en: 'Moderate',
+      AppLanguage.vn: 'Trung bình',
+    },
+    // ignore: equal_keys_in_map
+    'Poor': {
+      AppLanguage.en: 'Poor',
+      AppLanguage.vn: 'Kém',
+    },
+    // ignore: equal_keys_in_map
+    'Very Poor': {
+      AppLanguage.en: 'Very Poor',
+      AppLanguage.vn: 'Rất kém',
     },
   };
   String translate(String key, AppLanguage language) {

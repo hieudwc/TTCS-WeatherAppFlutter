@@ -75,7 +75,7 @@ class WeatherNotifications extends ConsumerWidget {
           margin: const EdgeInsets.symmetric(horizontal: 16.0),
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: isNightMode ? Colors.blueGrey[900] : Colors.white,
+            color: isNightMode ? AppColors.nightBlue : AppColors.dayBlue,
             borderRadius: BorderRadius.circular(15.0),
             boxShadow: [
               BoxShadow(
@@ -117,11 +117,9 @@ class WeatherNotifications extends ConsumerWidget {
                     Expanded(
                       child: Text(
                         notifications[index],
-                        style: TextStyle(
-                          color: isNightMode ? Colors.white : Colors.black87,
-                          fontSize: 14,
-                          height: 1.4,
-                        ),
+                        style: isNightMode
+                            ? TextStyles.subtitleTextNightMode
+                            : TextStyles.subtitleTextDayMode,
                       ),
                     ),
                   ],
