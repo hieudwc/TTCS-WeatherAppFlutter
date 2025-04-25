@@ -242,94 +242,133 @@ class _AirQualityDetailsScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      extendBodyBehindAppBar: false,
-      backgroundColor: Colors.transparent,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: AppBar(
-          elevation: 0,
-          backgroundColor: currentGradient.first.withOpacity(0.9),
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: isNightMode ? Colors.white : AppColors.accentBlue,
-            ),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text(
-            Localization(language: currentLanguage)
-                .translate('Air Quality', currentLanguage),
-            style: TextStyle(
-              color: isNightMode ? Colors.white : AppColors.accentBlue,
-              fontWeight: FontWeight.bold,
+      // Thay đổi: Đặt safeArea cho toàn bộ Scaffold
+      resizeToAvoidBottomInset:
+          true, // Đảm bảo UI thay đổi khi bàn phím hiện lên
+      extendBodyBehindAppBar: true, // Kéo body lên phía sau AppBar
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: currentGradient,
             ),
           ),
-          centerTitle: true,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(2),
-            child: Container(
-              height: 2,
-              color: Colors.red.withOpacity(0.7),
-            ),
-          ),
-        ),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: currentGradient,
-          ),
-        ),
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            // Tiêu đề phần chất ô nhiễm
-            Padding(
-              padding: const EdgeInsets.only(left: 8, bottom: 8),
-              child: Text(
-                Localization(language: currentLanguage)
-                    .translate('Pollutants', currentLanguage),
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: isNightMode ? Colors.white : AppColors.accentBlue,
+          child: Column(
+            children: [
+              // Custom AppBar trong SafeArea
+              Container(
+                height: 60,
+                color: currentGradient.first.withOpacity(0.9),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color:
+                            isNightMode ? Colors.white : AppColors.accentBlue,
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.air_outlined,
+                              color: isNightMode
+                                  ? Colors.white
+                                  : AppColors.accentBlue,
+                              size: 22,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              Localization(language: currentLanguage)
+                                  .translate('Air Quality', currentLanguage),
+                              style: TextStyle(
+                                color: isNightMode
+                                    ? Colors.white
+                                    : AppColors.accentBlue,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // Placeholder để cân bằng với nút back
+                    const SizedBox(width: 48),
+                  ],
                 ),
               ),
-            ),
 
-            // Widget hiển thị chi tiết các thành phần
-            _buildComponentItem(
-                'CO',
-                '${airQualityData.components.co.toStringAsFixed(2)} μg/m³',
-                isNightMode),
-            _buildComponentItem(
-                'NO₂',
-                '${airQualityData.components.no2.toStringAsFixed(2)} μg/m³',
-                isNightMode),
-            _buildComponentItem(
-                'O₃',
-                '${airQualityData.components.o3.toStringAsFixed(2)} μg/m³',
-                isNightMode),
-            _buildComponentItem(
-                'PM2.5',
-                '${airQualityData.components.pm2_5.toStringAsFixed(2)} μg/m³',
-                isNightMode),
-            _buildComponentItem(
-                'PM10',
-                '${airQualityData.components.pm10.toStringAsFixed(2)} μg/m³',
-                isNightMode),
-            _buildComponentItem(
-                'SO₂',
-                '${airQualityData.components.so2.toStringAsFixed(2)} μg/m³',
-                isNightMode),
+              // Divider line
+              Container(
+                height: 2,
+                color: Colors.red.withOpacity(0.7),
+              ),
 
-            const SizedBox(height: 20),
+              // Main content
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    // Tiêu đề phần chất ô nhiễm
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, bottom: 8),
+                      child: Text(
+                        Localization(language: currentLanguage)
+                            .translate('Pollutants', currentLanguage),
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              isNightMode ? Colors.white : AppColors.accentBlue,
+                        ),
+                      ),
+                    ),
 
-            // Thông tin về chỉ số AQI
-            _buildAqiInfoCard(isNightMode, currentLanguage),
-          ],
+                    // Widget hiển thị chi tiết các thành phần
+                    _buildComponentItem(
+                        'CO',
+                        '${airQualityData.components.co.toStringAsFixed(2)} μg/m³',
+                        isNightMode),
+                    _buildComponentItem(
+                        'NO₂',
+                        '${airQualityData.components.no2.toStringAsFixed(2)} μg/m³',
+                        isNightMode),
+                    _buildComponentItem(
+                        'O₃',
+                        '${airQualityData.components.o3.toStringAsFixed(2)} μg/m³',
+                        isNightMode),
+                    _buildComponentItem(
+                        'PM2.5',
+                        '${airQualityData.components.pm2_5.toStringAsFixed(2)} μg/m³',
+                        isNightMode),
+                    _buildComponentItem(
+                        'PM10',
+                        '${airQualityData.components.pm10.toStringAsFixed(2)} μg/m³',
+                        isNightMode),
+                    _buildComponentItem(
+                        'SO₂',
+                        '${airQualityData.components.so2.toStringAsFixed(2)} μg/m³',
+                        isNightMode),
+
+                    const SizedBox(height: 20),
+
+                    // Thông tin về chỉ số AQI
+                    _buildAqiInfoCard(isNightMode, currentLanguage),
+
+                    // Padding dưới cùng
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
