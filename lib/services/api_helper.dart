@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:weather_app_tutorial/models/air_quality.dart';
+import 'package:weather_app_tutorial/models/historical_weather.dart';
 import '/constants/constants.dart';
 import '/models/hourly_weather.dart';
 import '/models/weather.dart';
@@ -94,6 +95,8 @@ class ApiHelper {
       'https://api.open-meteo.com/v1/forecast?current=&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto';
   static const airQualityUrl =
       'https://api.openweathermap.org/data/2.5/air_pollution';
+  static const historyWeatherUrl =
+      'https://archive-api.open-meteo.com/v1/archive?daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto';
   static double lat = 0.0;
   static double lon = 0.0;
   static final dio = Dio();
@@ -147,6 +150,144 @@ class ApiHelper {
     return AirQualityModel.fromJson(response);
   }
 
+  // Historical Weather Data
+  static Future<List<HistoricalWeather>> getHistoricalWeatherDataApi1() async {
+    await fetchLocation();
+
+    // Calculate date range for the past month
+    final DateTime now = DateTime.now();
+    final DateTime endDate = DateTime(now.year, now.month - 1, 30);
+    final DateTime startDate = DateTime(now.year, now.month - 1, 1);
+
+    final String formattedStartDate =
+        startDate.toIso8601String().substring(0, 10);
+    final String formattedEndDate = endDate.toIso8601String().substring(0, 10);
+
+    final url =
+        _constructHistoricalWeatherUrl(formattedStartDate, formattedEndDate);
+    final response = await _fetchData(url);
+
+    final List<HistoricalWeather> historicalData = [];
+
+    if (response.containsKey('daily') &&
+        response['daily'].containsKey('time') &&
+        response['daily'].containsKey('temperature_2m_max') &&
+        response['daily'].containsKey('temperature_2m_min') &&
+        response['daily'].containsKey('precipitation_sum')) {
+      final List<String> times = List<String>.from(response['daily']['time']);
+      final List<double> maxTemps =
+          List<double>.from(response['daily']['temperature_2m_max']);
+      final List<double> minTemps =
+          List<double>.from(response['daily']['temperature_2m_min']);
+      final List<double> precipitations =
+          List<double>.from(response['daily']['precipitation_sum']);
+
+      for (int i = 0; i < times.length; i++) {
+        historicalData.add(HistoricalWeather(
+          date: DateTime.parse(times[i]),
+          maxTemp: maxTemps[i],
+          minTemp: minTemps[i],
+          avgTemp: (maxTemps[i] + minTemps[i]) / 2,
+          precipitation: precipitations[i],
+        ));
+      }
+    }
+
+    return historicalData;
+  }
+
+  // Historical Weather Data
+  static Future<List<HistoricalWeather>> getHistoricalWeatherDataApi2() async {
+    await fetchLocation();
+
+    // Calculate date range for the past month
+    final DateTime now = DateTime.now();
+    final DateTime endDate = DateTime(now.year, now.month - 2, 30);
+    final DateTime startDate = DateTime(now.year, now.month - 2, 1);
+
+    final String formattedStartDate =
+        startDate.toIso8601String().substring(0, 10);
+    final String formattedEndDate = endDate.toIso8601String().substring(0, 10);
+
+    final url =
+        _constructHistoricalWeatherUrl(formattedStartDate, formattedEndDate);
+    final response = await _fetchData(url);
+
+    final List<HistoricalWeather> historicalData = [];
+
+    if (response.containsKey('daily') &&
+        response['daily'].containsKey('time') &&
+        response['daily'].containsKey('temperature_2m_max') &&
+        response['daily'].containsKey('temperature_2m_min') &&
+        response['daily'].containsKey('precipitation_sum')) {
+      final List<String> times = List<String>.from(response['daily']['time']);
+      final List<double> maxTemps =
+          List<double>.from(response['daily']['temperature_2m_max']);
+      final List<double> minTemps =
+          List<double>.from(response['daily']['temperature_2m_min']);
+      final List<double> precipitations =
+          List<double>.from(response['daily']['precipitation_sum']);
+
+      for (int i = 0; i < times.length; i++) {
+        historicalData.add(HistoricalWeather(
+          date: DateTime.parse(times[i]),
+          maxTemp: maxTemps[i],
+          minTemp: minTemps[i],
+          avgTemp: (maxTemps[i] + minTemps[i]) / 2,
+          precipitation: precipitations[i],
+        ));
+      }
+    }
+
+    return historicalData;
+  }
+
+  // Get Current Month Historical Data (up to yesterday)
+  static Future<List<HistoricalWeather>> getCurrentMonthHistoricalData() async {
+    await fetchLocation();
+
+    // Calculate date range from the 1st of current month to yesterday
+    final DateTime now = DateTime.now();
+    final DateTime startDate = DateTime(now.year, now.month, 1);
+    final DateTime endDate = now.subtract(const Duration(days: 2));
+
+    final String formattedStartDate =
+        startDate.toIso8601String().substring(0, 10);
+    final String formattedEndDate = endDate.toIso8601String().substring(0, 10);
+
+    final url =
+        _constructHistoricalWeatherUrl(formattedStartDate, formattedEndDate);
+    final response = await _fetchData(url);
+
+    final List<HistoricalWeather> historicalData = [];
+
+    if (response.containsKey('daily') &&
+        response['daily'].containsKey('time') &&
+        response['daily'].containsKey('temperature_2m_max') &&
+        response['daily'].containsKey('temperature_2m_min') &&
+        response['daily'].containsKey('precipitation_sum')) {
+      final List<String> times = List<String>.from(response['daily']['time']);
+      final List<double> maxTemps =
+          List<double>.from(response['daily']['temperature_2m_max']);
+      final List<double> minTemps =
+          List<double>.from(response['daily']['temperature_2m_min']);
+      final List<double> precipitations =
+          List<double>.from(response['daily']['precipitation_sum']);
+
+      for (int i = 0; i < times.length; i++) {
+        historicalData.add(HistoricalWeather(
+          date: DateTime.parse(times[i]),
+          maxTemp: maxTemps[i],
+          minTemp: minTemps[i],
+          avgTemp: (maxTemps[i] + minTemps[i]) / 2,
+          precipitation: precipitations[i],
+        ));
+      }
+    }
+
+    return historicalData;
+  }
+
   static String _constructWeatherUrl() =>
       '$baseUrl/weather?lat=$lat&lon=$lon&units=metric&appid=${Constants.apiKey}';
 
@@ -161,6 +302,10 @@ class ApiHelper {
 
   static String _constructAirQualityUrl() =>
       '$airQualityUrl?lat=$lat&lon=$lon&appid=${Constants.apiKey}';
+
+  static String _constructHistoricalWeatherUrl(
+          String startDate, String endDate) =>
+      '$historyWeatherUrl&latitude=$lat&longitude=$lon&start_date=$startDate&end_date=$endDate';
 
   static Future<Map<String, dynamic>> _fetchData(String url) async {
     try {

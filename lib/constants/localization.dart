@@ -371,6 +371,60 @@ class Localization {
       AppLanguage.en: 'Very Poor',
       AppLanguage.vn: 'Rất kém',
     },
+    'Weather Statistics': {
+      AppLanguage.en: 'Weather Statistics',
+      AppLanguage.vn: 'Thống kê thời tiết',
+    },
+    'View detailed weather statistics and historical data': {
+      AppLanguage.en: 'View detailed weather statistics and historical data',
+      AppLanguage.vn: 'Xem chi tiết thống kê và dữ liệu trong quá khứ'
+    },
+    'Historical Temperature': {
+      AppLanguage.en: 'Historical Temperature',
+      AppLanguage.vn: 'Lịch sử thời tiết'
+    },
+    'View temperature data for month in the past': {
+      AppLanguage.en: 'View temperature data for month in the past',
+      AppLanguage.vn: 'Xem dữ liệu thời tiết từng tháng trong quá khứ'
+    },
+    'March': {AppLanguage.en: 'March', AppLanguage.vn: 'Tháng 3'},
+    'April': {AppLanguage.en: 'April', AppLanguage.vn: 'Tháng 4'},
+    'May': {AppLanguage.en: 'May', AppLanguage.vn: 'Tháng 5'},
+    'June': {AppLanguage.en: 'June', AppLanguage.vn: 'Tháng 6'},
+    'July': {AppLanguage.en: 'July', AppLanguage.vn: 'Tháng 7'},
+    'August': {AppLanguage.en: 'August', AppLanguage.vn: 'Tháng 8'},
+    'September': {AppLanguage.en: 'September', AppLanguage.vn: 'Tháng 9'},
+    'October': {AppLanguage.en: 'October', AppLanguage.vn: 'Tháng 10'},
+    'November': {AppLanguage.en: 'November', AppLanguage.vn: 'Tháng 11'},
+    'December': {AppLanguage.en: 'December', AppLanguage.vn: 'Tháng 12'},
+    'January': {AppLanguage.en: 'January', AppLanguage.vn: 'Tháng 1'},
+    'February': {AppLanguage.en: 'February', AppLanguage.vn: 'Tháng 2'},
+    'Present': {AppLanguage.en: 'Present', AppLanguage.vn: 'Hiện tại'},
+    'Historical Weather': {
+      AppLanguage.en: 'Historical Weather',
+      AppLanguage.vn: 'Lịch sử thời tiết'
+    },
+    'Loading weather data...': {
+      AppLanguage.en: 'Loading weather data...',
+      AppLanguage.vn: 'Đang tải dữ liệu thời tiết...'
+    },
+    'No data available for': {
+      AppLanguage.en: 'No data available for',
+      AppLanguage.vn: 'Không có dữ liệu cho'
+    },
+    'TEMPERATURE CHART': {
+      AppLanguage.en: 'TEMPERATURE CHART',
+      AppLanguage.vn: 'BIỂU ĐỒ NHIỆT ĐỘ'
+    },
+    'Daily temperature data for': {
+      AppLanguage.en: 'Daily temperature data for',
+      AppLanguage.vn: 'Dữ liệu nhiệt độ hàng ngày cho'
+    },
+    'Refresh Data': {
+      AppLanguage.en: 'Refresh Data',
+      AppLanguage.vn: 'Làm mới dữ liệu'
+    },
+    'Try Again': {AppLanguage.en: 'Try Again', AppLanguage.vn: 'Thử lại'}
   };
   String translate(String key, AppLanguage language) {
     return _localizedValues[key]?[language] ?? key;
