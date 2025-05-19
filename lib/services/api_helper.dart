@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:weather_app_tutorial/constants/getDtTime.dart';
 import 'package:weather_app_tutorial/models/air_quality.dart';
+import 'package:weather_app_tutorial/models/historical_air.dart';
 import 'package:weather_app_tutorial/models/historical_weather.dart';
 import '/constants/constants.dart';
 import '/models/hourly_weather.dart';
@@ -97,6 +99,8 @@ class ApiHelper {
       'https://api.openweathermap.org/data/2.5/air_pollution';
   static const historyWeatherUrl =
       'https://archive-api.open-meteo.com/v1/archive?daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto';
+  static const historicalAirUrl =
+      'https://api.openweathermap.org/data/2.5/air_pollution/history';
   static double lat = 0.0;
   static double lon = 0.0;
   static final dio = Dio();
@@ -288,6 +292,87 @@ class ApiHelper {
     return historicalData;
   }
 
+  static Future<List<HistoricalAir>> getHistoricalAirData() async {
+    await fetchLocation();
+    final DateTime now = DateTime.now();
+    final DateTime Date = DateTime(now.year, now.month, now.day - 1);
+
+    final List timeDT = getDtTimeVN(Date);
+    final String startDate = timeDT[0].toString();
+    final String endDate = timeDT[1].toString();
+    print("Từ dt = $startDate đến dt = $endDate");
+    final url = _constructHistoricalAirUrl(startDate, endDate);
+    final response = await _fetchData(url);
+    final List<HistoricalAir> historicalData = [];
+    if (response.containsKey('list') && response['list'].isNotEmpty) {
+      final List<dynamic> list = response['list'];
+      for (var item in list) {
+        historicalData.add(HistoricalAir(
+          dt: item['dt'].toString(),
+          aqi: item['main']['aqi'],
+          pm10: item['components']['pm10'].toDouble(),
+          pm2_5: item['components']['pm2_5'].toDouble(),
+          o3: item['components']['o3'].toDouble(),
+        ));
+      }
+    }
+    return historicalData;
+  }
+
+  static Future<List<HistoricalAir>> getTodayAirData() async {
+    await fetchLocation();
+    final DateTime now = DateTime.now();
+    final DateTime Date = DateTime(now.year, now.month, now.day);
+
+    final List timeDT = getDtTimeVN(Date);
+    final String startDate = timeDT[0].toString();
+    final String endDate = timeDT[1].toString();
+    print("Từ dt = $startDate đến dt = $endDate");
+    final url = _constructHistoricalAirUrl(startDate, endDate);
+    final response = await _fetchData(url);
+    final List<HistoricalAir> historicalData = [];
+    if (response.containsKey('list') && response['list'].isNotEmpty) {
+      final List<dynamic> list = response['list'];
+      for (var item in list) {
+        historicalData.add(HistoricalAir(
+          dt: item['dt'].toString(),
+          aqi: item['main']['aqi'],
+          pm10: item['components']['pm10'].toDouble(),
+          pm2_5: item['components']['pm2_5'].toDouble(),
+          o3: item['components']['o3'].toDouble(),
+        ));
+      }
+    }
+    return historicalData;
+  }
+
+  static Future<List<HistoricalAir>> getTomorrowAirData() async {
+    await fetchLocation();
+    final DateTime now = DateTime.now();
+    final DateTime Date = DateTime(now.year, now.month, now.day + 1);
+
+    final List timeDT = getDtTimeVN(Date);
+    final String startDate = timeDT[0].toString();
+    final String endDate = timeDT[1].toString();
+    print("Từ dt = $startDate đến dt = $endDate");
+    final url = _constructHistoricalAirUrl(startDate, endDate);
+    final response = await _fetchData(url);
+    final List<HistoricalAir> historicalData = [];
+    if (response.containsKey('list') && response['list'].isNotEmpty) {
+      final List<dynamic> list = response['list'];
+      for (var item in list) {
+        historicalData.add(HistoricalAir(
+          dt: item['dt'].toString(),
+          aqi: item['main']['aqi'],
+          pm10: item['components']['pm10'].toDouble(),
+          pm2_5: item['components']['pm2_5'].toDouble(),
+          o3: item['components']['o3'].toDouble(),
+        ));
+      }
+    }
+    return historicalData;
+  }
+
   static String _constructWeatherUrl() =>
       '$baseUrl/weather?lat=$lat&lon=$lon&units=metric&appid=${Constants.apiKey}';
 
@@ -306,6 +391,8 @@ class ApiHelper {
   static String _constructHistoricalWeatherUrl(
           String startDate, String endDate) =>
       '$historyWeatherUrl&latitude=$lat&longitude=$lon&start_date=$startDate&end_date=$endDate';
+  static String _constructHistoricalAirUrl(String startDate, String endDate) =>
+      '$historicalAirUrl?lat=$lat&lon=$lon&start=$startDate&end=$endDate&appid=${Constants.apiKey}';
 
   static Future<Map<String, dynamic>> _fetchData(String url) async {
     try {

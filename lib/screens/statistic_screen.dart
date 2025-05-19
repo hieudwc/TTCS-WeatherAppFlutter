@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_tutorial/screens/air_pollution_screen.dart';
 import 'package:weather_app_tutorial/screens/historical_weather_screen.dart';
 import 'package:weather_app_tutorial/constants/localization.dart';
 import 'package:weather_app_tutorial/providers/background_color_provider.dart';
@@ -62,6 +63,23 @@ class _StatisticScreenState extends ConsumerState<StatisticScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) => const HistoricalWeatherScreen(),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 20),
+        _buildStatCard(
+          title: Localization(language: currentLanguage)
+              .translate('Historical Air', currentLanguage),
+          description: Localization(language: currentLanguage)
+              .translate('View static air in the past', currentLanguage),
+          icon: Icons.air_outlined,
+          isNightMode: isNightMode,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AirPollutionScreen(),
               ),
             );
           },

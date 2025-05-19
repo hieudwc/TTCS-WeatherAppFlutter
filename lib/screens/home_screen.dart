@@ -89,6 +89,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       await ApiHelper.getHistoricalWeatherDataApi2();
                   final currentHistoricalData =
                       await ApiHelper.getCurrentMonthHistoricalData();
+                  final historicalAirData =
+                      await ApiHelper.getHistoricalAirData();
+                  final todayAirData = await ApiHelper.getTodayAirData();
+                  final tomorrowAirData = await ApiHelper.getTomorrowAirData();
                   print("📊 Historical Data Count: ${historicalData1.length}");
                   if (historicalData1.isNotEmpty) {
                     print("📅 First date: ${historicalData1.first.date}");
@@ -114,11 +118,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       historicalData2);
                   await FirebaseService.saveCurrentMonthHistoricalData(
                       currentHistoricalData);
+                  await FirebaseService.saveHistoricalAirData(
+                      historicalAirData);
+                  await FirebaseService.saveTodayAirData(todayAirData);
+                  await FirebaseService.saveTomorrowAirData(tomorrowAirData);
                   // Show success message
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content:
-                          Text('Đã lưu dữ liệu thời tiết tháng 4 thành công!'),
+                      content: Text('Đã lưu dữ liệu thời tiết thành công!'),
                       backgroundColor: Colors.green,
                     ),
                   );
